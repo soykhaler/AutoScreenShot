@@ -22,36 +22,27 @@ fn main() {
 
     while !rl.window_should_close() {
 
-        // Flecha derecha = aumentar intervalo
         if rl.is_key_pressed(KeyboardKey::KEY_RIGHT) {
             interval += 1;
         }
-
-        // Flecha izquierda = disminuir intervalo
         if rl.is_key_pressed(KeyboardKey::KEY_LEFT) {
 
             if interval > 1 {
                 interval -= 1;
             }
         }
-
-        // Flecha arriba = siguiente monitor
         if rl.is_key_pressed(KeyboardKey::KEY_UP) {
 
             if selected_monitor + 1 < screens.len() {
                 selected_monitor += 1;
             }
         }
-
-        // Flecha abajo = monitor anterior
         if rl.is_key_pressed(KeyboardKey::KEY_DOWN) {
 
             if selected_monitor > 0 {
                 selected_monitor -= 1;
             }
         }
-
-        // Captura automática
         if last_capture.elapsed() >= Duration::from_secs(interval) {
 
             match screens[selected_monitor].capture() {
@@ -60,12 +51,12 @@ fn main() {
 
                     image.save(OUTPUT_FILE).unwrap();
 
-                    println!("Actualizado: {}", OUTPUT_FILE);
+                    println!("Updating: {}", OUTPUT_FILE);
                 }
 
                 Err(err) => {
 
-                    println!("Error capturando pantalla: {}", err);
+                    println!("Error during screenshot: {}", err);
                 }
             }
 
@@ -106,7 +97,7 @@ fn main() {
         );
 
         d.draw_text(
-            "← → Cambiar intervalo",
+            "← → Change Screenshot Rate",
             20,
             200,
             20,
@@ -114,7 +105,7 @@ fn main() {
         );
 
         d.draw_text(
-            "↑ ↓ Cambiar monitor",
+            "↑ ↓ Change Monitor",
             20,
             230,
             20,
@@ -122,7 +113,7 @@ fn main() {
         );
 
         d.draw_text(
-            &format!("Guardando en: {}", OUTPUT_FILE),
+            &format!("Saving en: {}", OUTPUT_FILE),
             20,
             260,
             20,
